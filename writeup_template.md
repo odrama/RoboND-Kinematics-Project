@@ -20,6 +20,8 @@
 [image1]: ./misc_images/misc1.png
 [image2]: ./misc_images/misc3.png
 [image3]: ./misc_images/misc2.png
+[image4]: ./misc_images/robot_analysis.jpg
+[image5]: ./misc_images/DH_table.jpg
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/972/view) Points
 ### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
@@ -33,6 +35,11 @@ You're reading it!
 
 ### Kinematic Analysis
 #### 1. Run the forward_kinematics demo and evaluate the kr210.urdf.xacro file to perform kinematic analysis of Kuka KR210 robot and derive its DH parameters.
+
+By following the supplied examples in the Kinematics lessons, and using the Denavit-Hartenberg parameter convention, which is a systematic approach for describing coordinate frames relative to each other using just 4 parameters, i was able to fully derive the forward kinematics for the KR210 robot.
+
+![Robot Analysis using the DH Convention][image4]
+
 
 Here is an example of how to include an image in your writeup.
 
