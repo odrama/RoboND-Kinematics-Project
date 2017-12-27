@@ -24,7 +24,10 @@
 [image5]: ./misc_images/DH_table.jpg
 [image6]: ./misc_images/wc.png
 [image7]: ./misc_images/IK.png
-[image8]: ./misc_images/inv_r.png
+[image8]: ./misc_images/seq_1.png
+[image9]: ./misc_images/seq_2.png
+[image10]: ./misc_images/seq_3.png
+[image11]: ./misc_images/seq_4.png
 ## [Rubric](https://review.udacity.com/#!/rubrics/972/view) Points
 ### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
 
@@ -171,12 +174,12 @@ On the other hand, areas of improvement for my project would be:
 Regarding issues i faced, i felt lost at first because i did not know where to start, and where to implement the specific parts of the code, but as soon as i watched the walkthrough and worked with the debug code, i was able to understand and visualize what i should be doing.
 
 
-Here's a picture of one pick & place cycle during the place part:
+Here's a sequence of images during the place motion during one Pick and Place cycle:
 
+![seq_1][image8]
+![seq_2][image9]
+![seq_3][image10]
+![seq_4][image11]
 
-
-
-And just for fun, another example image:
-![alt text][image3]
 
 
