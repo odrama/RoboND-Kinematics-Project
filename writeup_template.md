@@ -160,6 +160,21 @@ With the help of the walkthrough, Slack, and the lessons in the Pick and place p
 
 Some parts i did myself and some parts i followed the walkthrough , although i made sure i understood it before implementing.
 
+Using the combo of ROS, Gazebo, and Rviz helped me understand more the various aspects of being a robotics software engineer. Although the projects are to be considered simple as we only built a small part of code. Building a 2 DOF manipulator from scratch would be really cool. Node initialization, services, pub-subs and URDFs and connecting the parts together would also be a great thing to do, which plan on, as soon as i finish term 1. 
+
+On the other hand, areas of improvement for my project would be:
+
+- using numpy instead of sympy for faster computation, 
+- implementing an algorithm to better pick the solutions for the inverse kinematics problems
+- saving computed matrices as pickle files
+
+Regarding issues i faced, i felt lost at first because i did not know where to start, and where to implement the specific parts of the code, but as soon as i watched the walkthrough and worked with the debug code, i was able to understand and visualize what i should be doing.
+
+
+Here's a picture of one pick & place cycle during the place part:
+
+
+
 
 And just for fun, another example image:
 ![alt text][image3]
