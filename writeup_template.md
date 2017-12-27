@@ -156,7 +156,9 @@ And with the resulting matrix we are able to extract `theta_4`, `theta_5`, and `
 
 #### 1. Fill in the `IK_server.py` file with properly commented python code for calculating Inverse Kinematics based on previously performed Kinematic Analysis. Your code must guide the robot to successfully complete 8/10 pick and place cycles. Briefly discuss the code you implemented and your results. 
 
-With the help of the walkthrough, Slack, and the lessons in the Pick and place project, i implemented all the above mentioned steps in sequence, the same way i implemented in the coding quizzes, but plus the new parts (inverse rotation matrix, Wrist center position vector, etc)
+With the help of the walkthrough, Slack, and the lessons in the Pick and place project, i implemented all the above mentioned steps in sequence, the same way i implemented in the coding quizzes, but plus the new parts (inverse rotation matrix, Wrist center position vector, etc).
+
+Some parts i did myself and some parts i followed the walkthrough , although i made sure i understood it before implementing.
 
 
 And just for fun, another example image:
