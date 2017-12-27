@@ -22,7 +22,7 @@
 [image3]: ./misc_images/misc2.png
 [image4]: ./misc_images/robot_analysis.jpg
 [image5]: ./misc_images/DH_table.jpg
-[image6]: ./misc_images/wc_position.jpg
+[image6]: ./misc_images/wc_position.png
 [image7]: ./misc_images/IK.png
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/972/view) Points
@@ -114,14 +114,14 @@ The translation part of the Homogenous transform between them is obtained direct
 
 And since the position vector of the Gripper w.r.t base is equal to the sum of the position vector of the Wrist Center w.r.t base plus the position vector of the Gripper w.r.t base, all we have to do is use the following equation, since by now, we have all the unknowns, in order to get the osition vector of the Gripper w.r.t base
 
-![alt_text][image6]
+![equation][image6]
 
 #### 3. Decouple Inverse Kinematics problem into Inverse Position Kinematics and inverse Orientation Kinematics; doing so derive the equations to calculate all individual joint angles.
 
 Using the Law of Cosines and trignometry, and with the help of the following image, we derive the inverse kinematics up to the WC using a geometrical approach. Different perspectives are used in order to get all three angles `theta_1`, `theta_2` , and `theta_3`
 
 
-![alt_text][image7]
+![inverse_kinematics][image7]
 
 ### Project Implementation
 
