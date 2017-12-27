@@ -22,8 +22,9 @@
 [image3]: ./misc_images/misc2.png
 [image4]: ./misc_images/robot_analysis.jpg
 [image5]: ./misc_images/DH_table.jpg
+[image6]: ./misc_images/wc.png
 [image7]: ./misc_images/IK.png
-
+[image8]: ./misc_images/inv_r.png
 ## [Rubric](https://review.udacity.com/#!/rubrics/972/view) Points
 ### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
 
@@ -117,17 +118,45 @@ And since the position vector of the Gripper w.r.t base is equal to the sum of t
 
 #### 3. Decouple Inverse Kinematics problem into Inverse Position Kinematics and inverse Orientation Kinematics; doing so derive the equations to calculate all individual joint angles.
 
-Using the Law of Cosines and trignometry, and with the help of the following image, we derive the inverse kinematics up to the WC using a geometrical approach. Different perspectives are used in order to get all three angles `theta_1`, `theta_2` , and `theta_3`
+Using the Law of Cosines and trignometry, and with the help of the following image, we derive the inverse kinematics equations up to the WC using a geometrical approach. Different perspectives are used in order to get all three angles `theta_1`, `theta_2` , and `theta_3`.
+
+Here is the section of the code that deals with calculating the thetas, based on the derived equations from the following figure:
+
+```python
+            
+
+            a = 1.501            
+            b = sqrt(pow((sqrt(WC[0] * WC[0] + WC[1] * WC[1]) - 0.35), 2) + pow(WC[2] - 0.75, 2))
+	    c = 1.25
+
+            alpha = acos((-a*a + b*b + c*c)/(2*b*c))
+            beta = 	acos((a*a - b*b + c*c)/(2*a*c))
+            gamma = acos((a*a + b*b - c*c)/(2*a*b))
+
+            rest_alpha = atan2((WC[2] - 0.75), sqrt(WC[0] * WC[0] + WC[1] * WC[1]) - 0.35)
+	    
+	    theta1 = atan2(WC[1], WC[0])
+            theta2 = pi/2 - alpha - rest_alpha
+            theta3 = pi/2 - (beta + 0.036)
+```
 
 
 ![inverse_kinematics][image7]
+
+
+Next we get the rotation matrix from WC to gripper using the following equations:
+
+![inv_R][image8]
+
+And with the resulting matrix we are able to extract `theta_4`, `theta_5`, and `theta_6`.
+
+
 
 ### Project Implementation
 
 #### 1. Fill in the `IK_server.py` file with properly commented python code for calculating Inverse Kinematics based on previously performed Kinematic Analysis. Your code must guide the robot to successfully complete 8/10 pick and place cycles. Briefly discuss the code you implemented and your results. 
 
-
-Here I'll talk about the code, what techniques I used, what worked and why, where the implementation might fail and how I might improve it if I were going to pursue this project further.  
+With the help of the walkthrough, Slack, and the lessons in the Pick and place project, i implemented all the above mentioned steps in sequence, the same way i implemented in the coding quizzes, but plus the new parts (inverse rotation matrix, Wrist center position vector, etc)
 
 
 And just for fun, another example image:
