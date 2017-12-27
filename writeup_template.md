@@ -22,6 +22,8 @@
 [image3]: ./misc_images/misc2.png
 [image4]: ./misc_images/robot_analysis.jpg
 [image5]: ./misc_images/DH_table.jpg
+[image6]: ./misc_images/wc_position.jpg
+[image7]: ./misc_images/IK.png
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/972/view) Points
 ### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
@@ -49,7 +51,7 @@ A simple summary of the variables would be:
 `theta`: Angle between the the common normal of a joint and the common normal of the preceding joint
 `d`: Distance between the common normal of a joint and that of the one preceding it
 
-[DH Parameter Table][image5]
+![DH Parameter Table][image5]
 
 
 #### 2. Using the DH parameter table you derived earlier, create individual transformation matrices about each joint. In addition, also generate a generalized homogeneous transform between base_link and gripper_link using only end-effector(gripper) pose.
@@ -107,14 +109,19 @@ We then correct it with another rotation matrix, as the frame assigment implemen
 	R_EE = R_EE * R_corr
 ```
 
-The translation part of the Homogenous transform between them is obtained directly throught the code.
+The translation part of the Homogenous transform between them is obtained directly through the code.
 
+
+And since the position vector of the Gripper w.r.t base is equal to the sum of the position vector of the Wrist Center w.r.t base plus the position vector of the Gripper w.r.t base, all we have to do is use the following equation, since by now, we have all the unknowns, in order to get the osition vector of the Gripper w.r.t base
+
+![alt_text][image6]
 
 #### 3. Decouple Inverse Kinematics problem into Inverse Position Kinematics and inverse Orientation Kinematics; doing so derive the equations to calculate all individual joint angles.
 
-And here's where you can draw out and show your math for the derivation of your theta angles. 
+Using the Law of Cosines and trignometry, and with the help of the following image, we derive the inverse kinematics up to the WC using a geometrical approach. Different perspectives are used in order to get all three angles `theta_1`, `theta_2` , and `theta_3`
 
-![alt text][image2]
+
+![alt_text][image7]
 
 ### Project Implementation
 
