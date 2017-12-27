@@ -41,21 +41,73 @@ By following the supplied examples in the Kinematics lessons, and using the Dena
 ![Robot Analysis using the DH Convention][image4]
 
 
-Here is an example of how to include an image in your writeup.
+Link lengths and joint positions were extracted from the `URDF` supplied within the project's repo.
+A simple summary of the variables would be:
 
-![alt text][image1]
+`alpha`: The twist angle between a joint's axis and the preceding joint's axis (be it axis of rotation or translation)
+`a`: Distance between a joint axis and the axis of the preceding one along the common normal
+`theta`: Angle between the the common normal of a joint and the common normal of the preceding joint
+`d`: Distance between the common normal of a joint and that of the one preceding it
+
+[DH Parameter Table][image5]
+
 
 #### 2. Using the DH parameter table you derived earlier, create individual transformation matrices about each joint. In addition, also generate a generalized homogeneous transform between base_link and gripper_link using only end-effector(gripper) pose.
 
-Links | alpha(i-1) | a(i-1) | d(i-1) | theta(i)
---- | --- | --- | --- | ---
-0->1 | 0 | 0 | L1 | qi
-1->2 | - pi/2 | L2 | 0 | -pi/2 + q2
-2->3 | 0 | 0 | 0 | 0
-3->4 |  0 | 0 | 0 | 0
-4->5 | 0 | 0 | 0 | 0
-5->6 | 0 | 0 | 0 | 0
-6->EE | 0 | 0 | 0 | 0
+The following code snippet includes a function `transform_matrix()` that takes in the four DH parameters and returns a transformation matrix between the related frames.
+
+```python
+
+	def transform_matrix(alpha, a, d, q):
+			T = Matrix([[             cos(q),            -sin(q),        0,          a],
+				[ sin(q)*cos(alpha), cos(q)*cos(alpha), -sin(alpha), -sin(alpha)*d],
+				[ sin(q)*sin(alpha), cos(q)*sin(alpha),  cos(alpha),  cos(alpha)*d],
+				[                   0,                   0,         0,               1]])
+	
+			return T
+
+	T0_1 = transform_matrix(alpha0, a0, d1, q1).subs(s)
+	T1_2 = transform_matrix(alpha1, a1, d2, q2).subs(s)
+	T2_3 = transform_matrix(alpha2, a2, d3, q3).subs(s)
+	T3_4 = transform_matrix(alpha3, a3, d4, q4).subs(s)
+	T4_5 = transform_matrix(alpha4, a4, d5, q5).subs(s)
+	T5_6 = transform_matrix(alpha5, a5, d6, q6).subs(s)
+	T6_G = transform_matrix(alpha6, a6, d7, q7).subs(s)
+```
+We then multiply the transformations from the `base_link` to the `end_effector` in order to get the total transformation between them.
+
+```python
+	T0_G = T0_1 * T1_2 * T2_3 * T3_4 * T4_5 * T5_6 * T6_G
+```
+Using a sequence of Extrinsic rotations, we calculate the rotation matrix between the `base_link` and the `end_effector`
+
+```python
+
+	R_z = Matrix([[cos(y), -sin(y), 0, 0], 
+	    [sin(y), cos(y), 0, 0], 
+	    [0, 0, 1, 0],
+	    [0, 0, 0, 1]]) # Yaw
+	R_y = Matrix([[cos(p), 0, sin(p), 0], 
+	    [0, 1, 0, 0], 
+	    [-sin(p), 0, cos(p), 0], 
+	    [0, 0, 0, 1]]) # Pitch
+	R_x = Matrix([[1, 0, 0, 0], 
+	    [0, cos(r), -sin(r), 0], 
+	    [0, sin(r), cos(r), 0], 
+	    [0, 0, 0, 1]]) # Roll
+      
+      
+	R_EE = R_z * R_y * R_x
+  ```
+  
+We then correct it with another rotation matrix, as the frame assigment implemented using the DH method is different from the assignmentsi n the `URDF` file for the KR210.
+
+```python
+	R_corr = R_z.subs(y, radians(180)) * R_y.subs(p, radians(-90))
+	R_EE = R_EE * R_corr
+```
+
+The translation part of the Homogenous transform between them is obtained directly throught the code.
 
 
 #### 3. Decouple Inverse Kinematics problem into Inverse Position Kinematics and inverse Orientation Kinematics; doing so derive the equations to calculate all individual joint angles.
