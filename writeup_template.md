@@ -29,6 +29,7 @@
 [image10]: ./misc_images/seq_3.png
 [image11]: ./misc_images/seq_4.png
 [image12]: ./misc_images/inv_r.png
+[image13]: ./misc_images/final_thetas.png
 ## [Rubric](https://review.udacity.com/#!/rubrics/972/view) Points
 ### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
 
@@ -152,7 +153,9 @@ Next we get the rotation matrix from WC to gripper using the following equations
 
 ![inv_R][image12]
 
-And with the resulting matrix we are able to extract `theta_4`, `theta_5`, and `theta_6`.
+And with the resulting matrix we are able to extract `theta_4`, `theta_5`, and `theta_6` using the following equations, where we extract elements from the matrix so as to satisfy the `theta = arctan2(sin(theta), cos(theta))` :
+
+![final_thetas][image13]
 
 
 
