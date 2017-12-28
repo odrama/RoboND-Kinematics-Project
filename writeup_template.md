@@ -306,6 +306,23 @@ And with the resulting matrix we are able to extract `theta_4`, `theta_5`, and `
 
 
 
+The code implementation for the previous concepts can be seen here: 
+```python
+            R0_3 = T0_1[0:3, 0:3] * T1_2[0:3, 0:3] * T2_3[0:3, 0:3]
+            
+            R3_6 = R0_3.inv('LU') * R_EE[:-1, :-1]
+            
+            pprint(simplify(R3_6))
+            
+            R0_3 = R0_3.evalf(subs = {q1: theta1, q2:theta2, q3:theta3})
+
+            R3_6 = R0_3.inv('LU') * R_EE[:-1, :-1]
+
+            theta4 = atan2(R3_6[2, 2], -R3_6[0, 2])
+            theta5 = atan2(sqrt(R3_6[0, 2] * R3_6[0, 2] + R3_6[2, 2] * R3_6[2, 2]), R3_6[1, 2])
+            theta6 = atan2(-R3_6[1, 1], R3_6[1, 0])
+```
+
 ### Project Implementation
 
 #### 1. Fill in the `IK_server.py` file with properly commented python code for calculating Inverse Kinematics based on previously performed Kinematic Analysis. Your code must guide the robot to successfully complete 8/10 pick and place cycles. Briefly discuss the code you implemented and your results. 
