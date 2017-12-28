@@ -312,8 +312,6 @@ The code implementation for the previous concepts can be seen here:
             
             R3_6 = R0_3.inv('LU') * R_EE[:-1, :-1]
             
-            pprint(simplify(R3_6))
-            
             R0_3 = R0_3.evalf(subs = {q1: theta1, q2:theta2, q3:theta3})
 
             R3_6 = R0_3.inv('LU') * R_EE[:-1, :-1]
