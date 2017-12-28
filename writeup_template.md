@@ -121,6 +121,149 @@ And since the position vector of the Gripper w.r.t base is equal to the sum of t
 
 ![equation][image6]
 
+
+Here are the individuak Transformation matrices between joints: 
+```python
+T0_1
+
+⎡cos(q₁)  -sin(q₁)  0   0  ⎤
+⎢                          ⎥
+⎢sin(q₁)  cos(q₁)   0   0  ⎥
+⎢                          ⎥
+⎢   0        0      1  0.75⎥
+⎢                          ⎥
+⎣   0        0      0   1  ⎦
+
+T1_2
+
+⎡cos(q₂ - 0.5⋅π)   -sin(q₂ - 0.5⋅π)  0  0.35⎤
+⎢                                           ⎥
+⎢       0                 0          1   0  ⎥
+⎢                                           ⎥
+⎢-sin(q₂ - 0.5⋅π)  -cos(q₂ - 0.5⋅π)  0   0  ⎥
+⎢                                           ⎥
+⎣       0                 0          0   1  ⎦
+
+T2_3
+
+⎡cos(q₃)  -sin(q₃)  0  1.25⎤
+⎢                          ⎥
+⎢sin(q₃)  cos(q₃)   0   0  ⎥
+⎢                          ⎥
+⎢   0        0      1   0  ⎥
+⎢                          ⎥
+⎣   0        0      0   1  ⎦
+
+T3_4
+
+⎡cos(q₄)   -sin(q₄)  0  -0.054⎤
+⎢                             ⎥
+⎢   0         0      1   1.5  ⎥
+⎢                             ⎥
+⎢-sin(q₄)  -cos(q₄)  0    0   ⎥
+⎢                             ⎥
+⎣   0         0      0    1   ⎦
+
+T4_5
+
+⎡cos(q₅)  -sin(q₅)  0   0⎤
+⎢                        ⎥
+⎢   0        0      -1  0⎥
+⎢                        ⎥
+⎢sin(q₅)  cos(q₅)   0   0⎥
+⎢                        ⎥
+⎣   0        0      0   1⎦
+
+T5_6
+
+⎡cos(q₆)   -sin(q₆)  0  0⎤
+⎢                        ⎥
+⎢   0         0      1  0⎥
+⎢                        ⎥
+⎢-sin(q₆)  -cos(q₆)  0  0⎥
+⎢                        ⎥
+⎣   0         0      0  1⎦
+
+T6_G
+
+⎡1  0  0    0  ⎤
+⎢              ⎥
+⎢0  1  0    0  ⎥
+⎢              ⎥
+⎢0  0  1  0.303⎥
+⎢              ⎥
+⎣0  0  0    1  ⎦
+```
+
+and here is the complete homogeneous transform from `base_link` to `gripper_link`:
+
+```python
+T0_G
+
+⎡((sin(q₁)⋅sin(q₄) + sin(q₂ + q₃)⋅cos(q₁)⋅cos(q₄))⋅cos(q₅) + sin(q₅)⋅cos(q₁)⋅c
+⎢                                                                             
+⎢((sin(q₁)⋅sin(q₂ + q₃)⋅cos(q₄) - sin(q₄)⋅cos(q₁))⋅cos(q₅) + sin(q₁)⋅sin(q₅)⋅c
+⎢                                                                             
+⎢                               (-sin(q₅)⋅sin(q₂ + q₃) + cos(q₄)⋅cos(q₅)⋅cos(q
+⎢                                                                             
+⎣                                                                             
+
+os(q₂ + q₃))⋅cos(q₆) + (sin(q₁)⋅cos(q₄) - sin(q₄)⋅sin(q₂ + q₃)⋅cos(q₁))⋅sin(q₆
+                                                                              
+os(q₂ + q₃))⋅cos(q₆) - (sin(q₁)⋅sin(q₄)⋅sin(q₂ + q₃) + cos(q₁)⋅cos(q₄))⋅sin(q₆
+                                                                              
+₂ + q₃))⋅cos(q₆) - sin(q₄)⋅sin(q₆)⋅cos(q₂ + q₃)                               
+                                                                              
+0                                                                             
+
+)  -((sin(q₁)⋅sin(q₄) + sin(q₂ + q₃)⋅cos(q₁)⋅cos(q₄))⋅cos(q₅) + sin(q₅)⋅cos(q₁
+                                                                              
+)  ((-sin(q₁)⋅sin(q₂ + q₃)⋅cos(q₄) + sin(q₄)⋅cos(q₁))⋅cos(q₅) - sin(q₁)⋅sin(q₅
+                                                                              
+                                   (sin(q₅)⋅sin(q₂ + q₃) - cos(q₄)⋅cos(q₅)⋅cos
+                                                                              
+                                                                              
+
+)⋅cos(q₂ + q₃))⋅sin(q₆) + (sin(q₁)⋅cos(q₄) - sin(q₄)⋅sin(q₂ + q₃)⋅cos(q₁))⋅cos
+                                                                              
+)⋅cos(q₂ + q₃))⋅sin(q₆) - (sin(q₁)⋅sin(q₄)⋅sin(q₂ + q₃) + cos(q₁)⋅cos(q₄))⋅cos
+                                                                              
+(q₂ + q₃))⋅sin(q₆) - sin(q₄)⋅cos(q₆)⋅cos(q₂ + q₃)                             
+                                                                              
+   0                                                                          
+
+(q₆)  -(sin(q₁)⋅sin(q₄) + sin(q₂ + q₃)⋅cos(q₁)⋅cos(q₄))⋅sin(q₅) + cos(q₁)⋅cos(
+                                                                              
+(q₆)  (-sin(q₁)⋅sin(q₂ + q₃)⋅cos(q₄) + sin(q₄)⋅cos(q₁))⋅sin(q₅) + sin(q₁)⋅cos(
+                                                                              
+                        -sin(q₅)⋅cos(q₄)⋅cos(q₂ + q₃) - sin(q₂ + q₃)⋅cos(q₅)  
+                                                                              
+                                                 0                            
+
+q₅)⋅cos(q₂ + q₃)  -0.303⋅sin(q₁)⋅sin(q₄)⋅sin(q₅) + 1.25⋅sin(q₂)⋅cos(q₁) - 0.30
+                                                                              
+q₅)⋅cos(q₂ + q₃)  1.25⋅sin(q₁)⋅sin(q₂) - 0.303⋅sin(q₁)⋅sin(q₅)⋅sin(q₂ + q₃)⋅co
+                                                                              
+                                                          -0.303⋅sin(q₅)⋅cos(q
+                                                                              
+                                                                              
+
+3⋅sin(q₅)⋅sin(q₂ + q₃)⋅cos(q₁)⋅cos(q₄) - 0.054⋅sin(q₂ + q₃)⋅cos(q₁) + 0.303⋅co
+                                                                              
+s(q₄) - 0.054⋅sin(q₁)⋅sin(q₂ + q₃) + 0.303⋅sin(q₁)⋅cos(q₅)⋅cos(q₂ + q₃) + 1.5⋅
+                                                                              
+₄)⋅cos(q₂ + q₃) - 0.303⋅sin(q₂ + q₃)⋅cos(q₅) - 1.5⋅sin(q₂ + q₃) + 1.25⋅cos(q₂)
+                                                                              
+                                          1                                   
+
+s(q₁)⋅cos(q₅)⋅cos(q₂ + q₃) + 1.5⋅cos(q₁)⋅cos(q₂ + q₃) + 0.35⋅cos(q₁)⎤
+                                                                    ⎥
+sin(q₁)⋅cos(q₂ + q₃) + 0.35⋅sin(q₁) + 0.303⋅sin(q₄)⋅sin(q₅)⋅cos(q₁) ⎥
+                                                                    ⎥
+ - 0.054⋅cos(q₂ + q₃) + 0.75                                        ⎥
+                                                                    ⎥
+                                                                    ⎦
+```
 #### 3. Decouple Inverse Kinematics problem into Inverse Position Kinematics and inverse Orientation Kinematics; doing so derive the equations to calculate all individual joint angles.
 
 Using the Law of Cosines and trignometry, and with the help of the following image, we derive the inverse kinematics equations up to the WC using a geometrical approach. Different perspectives are used in order to get all three angles `theta_1`, `theta_2` , and `theta_3`.
