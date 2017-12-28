@@ -86,43 +86,8 @@ We then multiply the transformations from the `base_link` to the `end_effector` 
 ```python
 	T0_G = T0_1 * T1_2 * T2_3 * T3_4 * T4_5 * T5_6 * T6_G
 ```
-Using a sequence of Extrinsic rotations, we calculate the rotation matrix between the `base_link` and the `end_effector`
 
-```python
-
-	R_z = Matrix([[cos(y), -sin(y), 0, 0], 
-	    [sin(y), cos(y), 0, 0], 
-	    [0, 0, 1, 0],
-	    [0, 0, 0, 1]]) # Yaw
-	R_y = Matrix([[cos(p), 0, sin(p), 0], 
-	    [0, 1, 0, 0], 
-	    [-sin(p), 0, cos(p), 0], 
-	    [0, 0, 0, 1]]) # Pitch
-	R_x = Matrix([[1, 0, 0, 0], 
-	    [0, cos(r), -sin(r), 0], 
-	    [0, sin(r), cos(r), 0], 
-	    [0, 0, 0, 1]]) # Roll
-      
-      
-	R_EE = R_z * R_y * R_x
-  ```
-  
-We then correct it with another rotation matrix, as the frame assigment implemented using the DH method is different from the assignmentsi n the `URDF` file for the KR210.
-
-```python
-	R_corr = R_z.subs(y, radians(180)) * R_y.subs(p, radians(-90))
-	R_EE = R_EE * R_corr
-```
-
-The translation part of the Homogenous transform between them is obtained directly through the code.
-
-
-And since the position vector of the Gripper w.r.t base is equal to the sum of the position vector of the Wrist Center w.r.t base plus the position vector of the Gripper w.r.t base, all we have to do is use the following equation, since by now, we have all the unknowns, in order to get the osition vector of the Gripper w.r.t base
-
-![equation][image6]
-
-
-Here are the individuak Transformation matrices between joints: 
+Here are the individual Transformation matrices between joints: 
 ```python
 T0_1
 
@@ -264,6 +229,45 @@ sin(q₁)⋅cos(q₂ + q₃) + 0.35⋅sin(q₁) + 0.303⋅sin(q₄)⋅sin(q₅)�
                                                                     ⎥
                                                                     ⎦
 ```
+
+
+
+Using a sequence of Extrinsic rotations, we calculate the rotation matrix between the `base_link` and the `end_effector`
+
+```python
+
+	R_z = Matrix([[cos(y), -sin(y), 0, 0], 
+	    [sin(y), cos(y), 0, 0], 
+	    [0, 0, 1, 0],
+	    [0, 0, 0, 1]]) # Yaw
+	R_y = Matrix([[cos(p), 0, sin(p), 0], 
+	    [0, 1, 0, 0], 
+	    [-sin(p), 0, cos(p), 0], 
+	    [0, 0, 0, 1]]) # Pitch
+	R_x = Matrix([[1, 0, 0, 0], 
+	    [0, cos(r), -sin(r), 0], 
+	    [0, sin(r), cos(r), 0], 
+	    [0, 0, 0, 1]]) # Roll
+      
+      
+	R_EE = R_z * R_y * R_x
+  ```
+  
+We then correct it with another rotation matrix, as the frame assigment implemented using the DH method is different from the assignmentsi n the `URDF` file for the KR210.
+
+```python
+	R_corr = R_z.subs(y, radians(180)) * R_y.subs(p, radians(-90))
+	R_EE = R_EE * R_corr
+```
+
+The translation part of the Homogenous transform between them is obtained directly through the code.
+
+
+And since the position vector of the Gripper w.r.t base is equal to the sum of the position vector of the Wrist Center w.r.t base plus the position vector of the Gripper w.r.t base, all we have to do is use the following equation, since by now, we have all the unknowns, in order to get the osition vector of the Gripper w.r.t base
+
+![equation][image6]
+
+
 #### 3. Decouple Inverse Kinematics problem into Inverse Position Kinematics and inverse Orientation Kinematics; doing so derive the equations to calculate all individual joint angles.
 
 Using the Law of Cosines and trignometry, and with the help of the following image, we derive the inverse kinematics equations up to the WC using a geometrical approach. Different perspectives are used in order to get all three angles `theta_1`, `theta_2` , and `theta_3`.
